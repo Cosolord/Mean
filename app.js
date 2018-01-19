@@ -1,5 +1,7 @@
-
-var express = require('express');
+// require('./api/data/dbconnection.js').open();       //questa riga è usata solo se uso il driver nativo di mongodb (senza mongoose quindi)
+require('./api/data/db.js');     //qui utilizzo invece mongoose per collegarmi al database
+var express = require('express'),
+    bodyParser = require('body-parser');
 var app = express();
 var path = require('path');
 var routes = require('./api/routes');
@@ -9,6 +11,7 @@ app.use(function(req, res, next){
   next();
 });
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({extended: false}))
 app.use('/api', routes);
 
 

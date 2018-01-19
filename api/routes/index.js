@@ -1,19 +1,29 @@
 var express = require('express');
 var router = express.Router();
-var ctrlHotels = require('../controllers/hotels_controllers.js');
+var ctrlHotels = require('../controllers/hotels.controllers.js');
+var ctrlReviews = require('../controllers/reviews.controllers.js');
 
 router
   .route('/hotels')
   .get(ctrlHotels.hotelsGetAll)
-  .post(function(req, res){
-    console.log('POST json');
-    res
-      .status(200)
-      .json({"jsonData": "POST received"});
-  });
+  .post(ctrlHotels.hotelsAddOne);
 
 router
   .route('/hotels/:hotelId')
-  .get(ctrlHotels.hotelsGetOne);
+  .get(ctrlHotels.hotelsGetOne)
+  .put(ctrlHotels.hotelsUpdateOne)
+  .delete(ctrlHotels.hotelsDeleteOne);
+
+//Reviews routes
+router
+  .route('/hotels/:hotelId/reviews')
+  .get(ctrlReviews.reviewsGetAll)
+  .post(ctrlReviews.reviewsAddOne);
+
+router
+  .route('/hotels/:hotelId/reviews/:reviewId')
+  .get(ctrlReviews.reviewsGetOne)
+  .put(ctrlReviews.reviewsUpdateOne)
+  .delete(ctrlReviews.reviewsDeleteOne);
 
 module.exports = router;
